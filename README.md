@@ -13,6 +13,8 @@ The central distinction is simple but important: `sklearn.gaussian_process.Gauss
 - Candidate-set Bayesian Optimization for discrete decision variables
 - Simulation-based workforce and capacity optimization
 - A synthetic manufacturing process-parameter optimization example
+- Two-fidelity Gaussian Process surrogate modeling
+- Cost-aware multi-fidelity optimization under an explicit evaluation budget
 - Guidance on when Bayesian Optimization is and is not appropriate in industrial engineering
 
 ## Conceptual workflow
@@ -39,6 +41,20 @@ Evaluate the expensive objective
 Update the data and repeat
 ```
 
+For multi-fidelity problems, the decision is extended to both **where** and **how accurately** to evaluate:
+
+```text
+candidate x
+    |
+    v
+low-cost / low-fidelity evaluation
+        or
+high-cost / high-fidelity evaluation
+    |
+    v
+cost-aware surrogate update
+```
+
 ## Repository structure
 
 ```text
@@ -49,6 +65,7 @@ Update the data and repeat
 ├── src/
 │   ├── gaussian_bo.py
 │   ├── discrete_bo.py
+│   ├── multi_fidelity.py
 │   └── production_simulation.py
 ├── notebooks/
 │   ├── 00_gaussian_process_regression_fundamentals.ipynb
@@ -57,7 +74,8 @@ Update the data and repeat
 │   └── 03_manufacturing_process_parameter_optimization.ipynb
 └── docs/
     ├── code_review_notes.md
-    └── industrial_engineering_application_guide.md
+    ├── industrial_engineering_application_guide.md
+    └── multi_fidelity_and_cost_aware_bo.md
 ```
 
 ## Installation
@@ -86,6 +104,22 @@ Scikit-learn provides `GaussianProcessRegressor` and Gaussian Process kernels, b
 
 A higher-level alternative is `gp_minimize` from the separate `scikit-optimize` package. `scikit-optimize` is not a submodule of scikit-learn.
 
+The multi-fidelity example follows the same teaching principle. It uses a transparent two-fidelity autoregressive surrogate
+
+```text
+f_high(x) = rho * f_low(x) + discrepancy(x)
+```
+
+and makes the evaluation-cost trade-off explicit rather than hiding it inside a framework.
+
+See [Multi-Fidelity and Cost-Aware Bayesian Optimization](docs/multi_fidelity_and_cost_aware_bo.md).
+
+Run the example with:
+
+```bash
+python src/multi_fidelity.py
+```
+
 ## When Bayesian Optimization is a strong candidate
 
 Bayesian Optimization becomes attractive when:
@@ -107,20 +141,27 @@ Industrial engineering examples include:
 - energy-quality trade-off tuning,
 - hyperparameter tuning for expensive optimization or machine-learning pipelines.
 
+Multi-fidelity optimization becomes especially useful when a cheaper approximation is available, such as a coarse simulation, reduced-order engineering model, shorter horizon, smaller Monte Carlo sample, or early-stopped training run.
+
 ## When it is usually not the first choice
 
 Bayesian Optimization is not a general replacement for Operations Research methods. If a problem can be formulated directly and solved efficiently as LP, MILP, MINLP, CP-SAT, network optimization, or another structured model, those methods are usually more appropriate.
 
 Bayesian Optimization is particularly useful when an expensive black-box evaluation layer sits outside the mathematical model.
 
+Likewise, multi-fidelity methods are not automatically useful merely because two simulators exist. The cheaper fidelity must be materially cheaper and informative about the high-fidelity objective.
+
 ## Scope of the examples
 
-The four notebooks form a deliberate progression:
+The repository now provides a deliberate progression:
 
 1. understand Gaussian Process prediction and uncertainty,
 2. build a complete continuous Bayesian Optimization loop,
 3. solve a stochastic discrete industrial-engineering problem and verify it against exhaustive search,
-4. apply the same ideas to a manufacturing process experiment.
+4. apply the same ideas to a manufacturing process experiment,
+5. extend the surrogate view to a cost-aware two-fidelity optimization problem.
+
+The multi-fidelity implementation is intentionally educational: its transparent fidelity-selection policy is useful for understanding the mechanics, but it is not presented as a universal or state-of-the-art acquisition strategy.
 
 The repository is therefore intended as a compact but complete teaching sequence, not an exhaustive reference on modern Bayesian Optimization.
 
