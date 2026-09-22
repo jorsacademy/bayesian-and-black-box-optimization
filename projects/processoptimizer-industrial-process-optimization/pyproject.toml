@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "processoptimizer-industrial-process-optimization"
+version = "0.1.0"
+description = "Bayesian optimization of a noisy industrial process with ProcessOptimizer"
+readme = "README.md"
+requires-python = ">=3.10,<3.13"
+dependencies = [
+  "ProcessOptimizer==1.1.2",
+  "numpy>=1.26,<3",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.0",
+  "pytest-cov>=5.0",
+]
+
+[project.scripts]
+processoptimizer-demo = "process_opt.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+addopts = "-q --cov=process_opt --cov-report=term-missing --cov-fail-under=90"
+testpaths = ["tests"]

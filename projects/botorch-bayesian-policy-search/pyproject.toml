@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "botorch-bayesian-policy-search"
+version = "0.1.0"
+description = "Bayesian optimization of an inventory policy with BoTorch"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "botorch==0.18.1",
+  "torch>=2.7,<3",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.0",
+  "pytest-cov>=5.0",
+]
+
+[project.scripts]
+botorch-policy-demo = "botorch_policy.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+addopts = "-q --cov=botorch_policy --cov-report=term-missing --cov-fail-under=90"
+testpaths = ["tests"]

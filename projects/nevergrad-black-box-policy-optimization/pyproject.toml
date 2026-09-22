@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "nevergrad-black-box-policy-optimization"
+version = "0.1.0"
+description = "Gradient-free black-box optimization of an inventory policy with Nevergrad"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+  "nevergrad==1.0.12",
+  "numpy>=1.26,<3",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.0",
+  "pytest-cov>=5.0",
+]
+
+[project.scripts]
+nevergrad-policy-demo = "nevergrad_policy.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+addopts = "-q --cov=nevergrad_policy --cov-report=term-missing --cov-fail-under=90"
+testpaths = ["tests"]
