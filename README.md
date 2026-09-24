@@ -1,4 +1,22 @@
-# Bayesian Optimization for Industrial Engineering
+# Bayesian and Black-Box Optimization
+
+<!-- portfolio-umbrella:start -->
+## Portfolio role
+
+This repository is the primary umbrella repository for this Jors Academy research area. Related projects have been consolidated under `projects/` so the methods, implementations, experiments, and case studies can be maintained and explored from one place.
+
+### Included projects
+
+- [`bayesian-optimization-endustri-muhendisligi`](projects/bayesian-optimization-endustri-muhendisligi/)
+- [`botorch-bayesian-policy-search`](projects/botorch-bayesian-policy-search/)
+- [`constrained-bayesian-optimization-chemical-process-python`](projects/constrained-bayesian-optimization-chemical-process-python/)
+- [`nevergrad-black-box-policy-optimization`](projects/nevergrad-black-box-policy-optimization/)
+- [`processoptimizer-industrial-process-optimization`](projects/processoptimizer-industrial-process-optimization/)
+- [`sambo-sequential-model-based-optimization`](projects/sambo-sequential-model-based-optimization/)
+- [`smac3-simulation-based-optimization`](projects/smac3-simulation-based-optimization/)
+
+Each consolidated project keeps its own files and a `SOURCE_REPOSITORY.md` provenance record. The snapshot preserves the source repository's default-branch files at consolidation time; repository-level history and metadata remain separate from the snapshot.
+<!-- portfolio-umbrella:end -->
 
 This repository is an educational introduction to Gaussian Process Regression (GPR) and Gaussian Process-based Bayesian Optimization in an industrial engineering context.
 
